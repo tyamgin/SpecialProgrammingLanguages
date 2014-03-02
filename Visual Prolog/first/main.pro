@@ -24,9 +24,8 @@ class predicates
     prepend_each:(integer** Array, integer Obj, integer** Result) nondeterm anyflow.
     subsets:(integer* Array, integer** Result) nondeterm anyflow.
     divide_by_sign:(integer* Array, integer* Negative, integer* Positive) nondeterm anyflow.
-    %permutations:(integer* Array, integer** Result) nondeterm anyflow.
-    insert_to_each_position:(integer* Array, integer Object, integer** Result) nondeterm anyflow.
-    insert_to_each_position:(integer* Left, integer* Right, integer Object, integer** Result) nondeterm anyflow.
+    insert_between:(integer* To, integer What, integer* Result) nondeterm anyflow.
+    is_permutation:(integer* Array, integer* Result) nondeterm anyflow.
     tree_equal:(tree A, tree B) nondeterm anyflow.
     is_sub_tree:(tree Target, tree Source) nondeterm anyflow.
 
@@ -98,24 +97,16 @@ clauses
         Head > 0,
         divide_by_sign(Tail, Negative, Positive).
 
-    % insert_to_each_position
-    insert_to_each_position(Arr, [], Obj, [Result]) :-
-        append(Arr, [Obj], Result).
-    insert_to_each_position(L, [C | R], Obj, [Current | Next]) :-
-        append(L, [Obj, C | R], Current),
-        append(L, [C], NewL),
-        insert_to_each_position(NewL, R, Obj, Next).
-    insert_to_each_position(Array, Obj, Result) :-
-        insert_to_each_position([], Array, Obj, Result).
+    % insert_between
+    insert_between(To, What, Result) :-
+        append(Left, Right, To),
+        append(Left, [What | Right], Result).
 
-
-
-
-   /* % permutations
-    permutations([], [[]]).
-    permutations([H | T], Result) :-
-        permutations(T, Sub),
-        insert_to_each_position(Sub, H, Result).*/
+    % is_permutation
+    is_permutation([], []).
+    is_permutation([Head | Tail], Result) :-
+        is_permutation(Tail, SubPermutation),
+        insert_between(SubPermutation, Head, Result).
 
     task10() :-
         stdio::write("\n\nTask 10\n"),
@@ -169,7 +160,6 @@ clauses
     task37() :-
         stdio::write("\n\nTask 37\n"),
         stdio::write("Создайте предикат, проверяющий, является ли одно дерево поддеревом второго.\n\n"),
-
         task37_1(), stdio::write("\n"),
         task37_2(), stdio::write("\n"),
         task37_3(), stdio::write("\n"),
@@ -180,25 +170,14 @@ clauses
 
     task20() :-
         stdio::write("\n\nTask 20\n"),
-        stdio::write("Создайте предикат, генерирующий все перестановки элементов списка, указанного в качестве первого аргумента предиката.\n"),
+        stdio::write("Создайте предикат, генерирующий все перестановки элементов списка, указанного в качестве первого аргумента предиката.\n\n"),
+        Permutation = [1,2,3,4],
+        stdio::writef("Permutations of % are:\n", Permutation),
+        is_permutation(Permutation, Result),
+        stdio::writef("%\n", Result),
         fail.
     task20() :-
         succeed().
-
-    /*run():-
-        console::init(),
-        append([1,2], [4,5], [1,2,4,5]),
-        length([1,2,3], 3),
-        insert_to_each_position([1,2], 3, [[3,1,2],[1,3,2],[1,2,3]]),
-
-
-
-        fail.
-
-    run():-
-        succeed().
-        % succeed(). % place your own code here
-        */
 
 end implement main
 
