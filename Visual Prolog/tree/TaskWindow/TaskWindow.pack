@@ -1,0 +1,26 @@
+/*****************************************************************************
+
+                        Copyright (c) 2014 My Company
+
+******************************************************************************/
+
+#include @"TaskWindow\TaskWindow.ph"
+
+#requires @"TaskWindow\TreeWindow.frm"
+% privately used packages
+#include @"pfc\resourceIdentifiers.ph"
+#include @"TaskWindow\Toolbars\Toolbars.ph"
+#include @"pfc\vpi\vpiToolbar\vpiToolbar.ph"
+#include @"pfc\resourceIdentifiers.ph"
+#include @"pfc\gui\controls\messageControl\messageControl.ph"
+#include @"pfc\exception\exception.ph"
+
+% private interfaces
+
+% private classes
+#include @"TaskWindow\AboutDialog.cl"
+
+% implementations
+#include @"TaskWindow\TreeWindow.pro"
+#include @"TaskWindow\TaskWindow.pro"
+#include @"TaskWindow\AboutDialog.pro"
