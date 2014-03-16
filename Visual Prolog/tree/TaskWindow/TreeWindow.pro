@@ -49,31 +49,31 @@ clauses
         drawLines(Handle, pnt(LeftEndX + Size, 2*Size+StartY), BottomsLeft),
         drawLines(Handle, pnt(LeftEndX + Size, 2*Size+StartY), BottomsRight).
 
-
 predicates
-    onSize : window::sizeListener.
+    onPaint : drawWindow::paintResponder.
 clauses
-    onSize(Source) :-
+    onPaint(Source, _Rectangle, _GDI) :-
         Handle = Source:getVpiWindow(),
         E = empty(),
-        B = tree("A", tree("B", E, E), tree("C", E, E)),
+        %B = tree("A", tree("B", E, E), tree("C", E, E)),
+        B = tree("1", E, tree("2", E, tree("3", E, tree("4", E, E)))),
         Tree = tree("1", tree("2", B, E), tree("3", tree("^", E, B), B)),
         Size = 20,
         Margin = 20,
         drawTree(Handle, 10, 10, Size, Margin, Tree, _, _).
 
-% This code is maintained automatically, do not update it manually. 15:28:29-2.3.2014
+% This code is maintained automatically, do not update it manually. 08:08:02-3.3.2014
 predicates
     generatedInitialize : ().
 clauses
     generatedInitialize():-
         setFont(vpi::fontCreateByName("Tahoma", 8)),
         setText("TreeWindow"),
-        setRect(rct(50,40,512,278)),
+        setRect(rct(50,40,514,278)),
         setDecoration(titlebar([closebutton(),maximizebutton(),minimizebutton()])),
         setBorder(sizeBorder()),
         setState([wsf_ClipSiblings,wsf_ClipChildren]),
         menuSet(noMenu),
-        addSizeListener(onSize).
+        setPaintResponder(onPaint).
 % end of automatic code
 end implement treeWindow

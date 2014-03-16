@@ -29,6 +29,10 @@ class predicates
     tree_equal:(tree A, tree B) nondeterm anyflow.
     is_sub_tree:(tree Target, tree Source) nondeterm anyflow.
 
+    unique:(integer* Array, integer* Result) nondeterm anyflow.
+    count:(integer*, integer, integer) nondeterm anyflow.
+    sub_array:(integer* Array, unsigned First, unsigned Last, integer* Result) nondeterm anyflow.
+
 clauses
     classInfo(className, classVersion).
 
@@ -108,6 +112,45 @@ clauses
         is_permutation(Tail, SubPermutation),
         insert_between(SubPermutation, Head, Result).
 
+    %count
+    count([], _, 0).
+    count([H | T], H, Result) :-
+        count(T, H, C),
+        Result = C + 1,
+        !.
+    count([H | T], X, C) :-
+        count(T, X, C).
+
+    % unique
+    unique([], []).
+    unique(Array, PrefixResult) :-
+        append(Prefix, [Last], Array),
+        unique(Prefix, PrefixResult),
+        count(PrefixResult, Last, Count),
+        Count > 0.
+    unique(Array, Result) :-
+        append(Prefix, [Last], Array),
+        unique(Prefix, PrefixResult),
+        count(PrefixResult, Last, 0),
+        append(PrefixResult, [Last], Result).
+
+ /*   unique([H | T], Result) :-
+        count(T, H, Count),
+        Count > 0,
+        unique(T, Result).
+    unique([H | T], [H | Result]) :-
+        count(T, H, Count),
+        Count = 0,
+        unique(T, Result).*/
+
+    % sub_array
+    sub_array(Array, First, Last, Result) :-
+        append(Left, Right, Array),
+        length(Left, First),
+        append(Result, _, Right),
+        length(Result, Last - First + 1).
+
+
     task10() :-
         stdio::write("\n\nTask 10\n"),
         stdio::write("Создайте предикат, который разделит исходный список из целых чисел на два списка: список положительных чисел и список отрицательных чисел.\n"),
@@ -167,6 +210,29 @@ clauses
     task37() :-
         succeed().
 
+    task18() :-
+        stdio::write("\n\nTask 18\n"),
+        stdio::write("Создайте предикат, удаляющий в исходном списке все повторные вхождения элементов\n\n"),
+        A = [1,2,1,6,9,6,10,2,19],
+        unique(A, Result),
+        stdio::writef("unique(%) = %\n", A, Result),
+        fail.
+    task18() :-
+        succeed().
+
+    task25() :-
+        stdio::write("\n\nTask 25\n"),
+        stdio::write(" Создайте предикат, возвращающий по списку и двум числам M и N подсписок исходного списка, состоящий из элементов с номерами от M до N.\n\n"),
+        A = [0,1,2,3,4,5,6,7,8,9],
+        First = 3,
+        Last = 7,
+        sub_array(A, First, Last, Result),
+        stdio::writef("sub_array(%, %, %) = %\n", A, First, Last, Result),
+        fail.
+    task25() :-
+        succeed().
+
+
 
     task20() :-
         stdio::write("\n\nTask 20\n"),
@@ -187,4 +253,6 @@ goal
     mainExe::run(main::task19),
     mainExe::run(main::task28),
     mainExe::run(main::task10),
-    mainExe::run(main::task20).
+    mainExe::run(main::task20),
+    mainExe::run(main::task18), % контрольная
+    mainExe::run(main::task25). % контрольная

@@ -389,7 +389,7 @@ tmpsl("exprt",s("OWN",0,12,e("status","exprt"),n(),n(),0,0,0)).
 tmpsl("exprt",s("prj",0,1,st("tree"),d(),sl([]),0,17,0)).
 tmpsl("exprt",s("tgt",0,8,il([1,0,0]),n(),sl(["Win32"]),0,0,0)).
 tmpsl("exprt",s("efile",0,1,st("tree.prj6"),m("pu",""),st("0"),0,0,1)).
-tmpsl("exprt",s("upd_dt",0,1,st("11:35:22-2.3.2014"),d(),sl([]),0,9,1)).
+tmpsl("exprt",s("upd_dt",0,1,st("14:56:12-2.3.2014"),d(),sl([]),0,9,1)).
 tmpsl("exprt",s("comp",0,1,st("My Company"),n(),sl([]),0,0,0)).
 tmpsl("exprt",s("vers",0,1,st("versioninfo_head(65536,0,65536,0,0,4,1,0)"),n(),sl([]),0,0,0)).
 tmpsl("exprt",s("auth",0,1,st("PC\\user"),n(),sl([]),0,0,0)).
