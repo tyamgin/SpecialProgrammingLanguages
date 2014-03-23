@@ -1,8 +1,8 @@
 ﻿interface ip
 predicates
-    digitAt : (integer Idx) -> integer Digit.
-    getDigits : () -> integer* Digits.
-    setIp : (integer* Digits).
-    toString : () -> string String.
+    digitAt : (unsigned Idx) -> unsigned Digit nondeterm(i).
+    getDigits : () -> unsigned* Digits.
+    setIp : (unsigned* Digits).
+    toString : () -> string String determ().
 
 end interface ip

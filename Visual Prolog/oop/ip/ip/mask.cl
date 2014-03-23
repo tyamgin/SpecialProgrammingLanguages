@@ -1,5 +1,5 @@
 ﻿class mask : mask
 constructors
-    new : (integer* Digits).
+    new : (unsigned* Digits).
 
 end class mask

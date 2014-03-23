@@ -4,6 +4,7 @@ clauses
         ipv4::new(Digits).
 
     getNetworkIp(Ip) = Result :-
-        Result = ipv4::getLocalhostIp().
+        ip_helper::list_bitand(Ip:getDigits(), getDigits(), ListResult),
+        Result = mask::new(ListResult).
 
 end implement mask

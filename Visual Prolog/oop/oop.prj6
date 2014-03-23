@@ -266,7 +266,7 @@ tmpsl("exprt",s("OWN",0,12,e("status","exprt"),n(),n(),0,0,0)).
 tmpsl("exprt",s("prj",0,1,st("oop"),d(),sl([]),0,17,0)).
 tmpsl("exprt",s("tgt",0,8,il([2,0,0]),n(),sl(["Win32"]),0,0,0)).
 tmpsl("exprt",s("efile",0,1,st("oop.prj6"),m("pu",""),st("0"),0,0,1)).
-tmpsl("exprt",s("upd_dt",0,1,st("15:14:36-16.3.2014"),d(),sl([]),0,9,1)).
+tmpsl("exprt",s("upd_dt",0,1,st("10:37:52-23.3.2014"),d(),sl([]),0,9,1)).
 tmpsl("exprt",s("comp",0,1,st("My Company"),n(),sl([]),0,0,0)).
 tmpsl("exprt",s("vers",0,1,st("versioninfo_head(65536,0,65536,0,0,4,1,0)"),n(),sl([]),0,0,0)).
 tmpsl("exprt",s("auth",0,1,st("tyamgin"),n(),sl([]),0,0,0)).
