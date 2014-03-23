@@ -1,0 +1,23 @@
+﻿/*****************************************************************************
+
+                        Copyright (c) 2014 My Company
+
+******************************************************************************/
+
+#include @"ip\ip\ip.ph"
+
+% privately used packages
+#include @"pfc\string\string.ph"
+#include @"pfc\console\console.ph"
+#include @"pfc\exception\exception.ph"
+
+% private interfaces
+
+% private classes
+
+% implementations
+#include @"ip\ip\mask.pro"
+#include @"ip\ip\ipv4.pro"
+#include @"ip\ip\ipv6.pro"
+#include @"ip\ip\ip_helper.pro"
+#include @"ip\ip\ip.pro"

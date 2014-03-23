@@ -8,6 +8,51 @@ implement treeWindow
     inherits formWindow
     open core, vpiDomains, vpi
 
+predicates
+    parent : (string Parent, string Child) determ(i, i).
+    brother : (string A, string B) determ(i, i).
+    grandpa : (string Grandpa, string Grandson) determ(i, i).
+    uncle : (string Uncle, string Nephew) determ(i, i).
+    married : (string A, string B) determ(i, i).
+    super_parent : (string SuperParent, string SuperChild) determ(i, i).
+    relative : (string A, string B) determ(i, i).
+
+clauses
+    % parent
+    % TODO
+
+    % brother
+    brother(A, B) :-
+        parent(Parent, A),
+        parent(Parent, B).
+
+    % grandpa
+    grandpa(Grandpa, Grandson) :-
+        parent(Father, Grandson),
+        parent(Grandpa, Father).
+
+    % uncle
+    uncle(Uncle, Nephew) :-
+        brother(Uncle, Bro),
+        parent(Bro, Nephew).
+
+    % married
+    % TODO
+
+    % super_parent
+    super_parent(A, A).
+    super_parent(SuperParent, SuperChild) :-
+        parent(SuperParent, Parent),
+        super_parent(Parent, SuperChild).
+    % TODO: учитывать супругов
+
+    % relative
+    relative(A, B) :-
+        super_parent(SuperParent, A),
+        super_parent(SuperParent, B).
+
+
+
 clauses
     display(Parent) = Form :-
         Form = new(Parent),
