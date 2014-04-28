@@ -10,18 +10,24 @@
 )
 
 (defun brother (x y)
-	(or (eq (get x mom) (get y mom))
-		(eq (get x mom) (get y dad))
-		(eq (get x dad) (get y mom))
-		(eq (get x dad) (get y dad))
+	(or (eq (get x 'mom) (get y 'mom))
+		(eq (get x 'dad) (get y 'dad))
 	)
 )
 
 (setf (get 'vasya 'mom) 'alena)
+(setf (get 'vasya 'dad) 'boris)
+(setf (get 'petya 'mom) 'alena)
+(setf (get 'petya 'dad) 'boris)
+(setf (get 'eugene 'mom) 'olga)
+(setf (get 'eugene 'dad) 'egor)
 
-('vasya put 'mom 'alena)
-('vasya put 'dad 'boris)
-('petya put 'mom 'alena)
-('petya put 'dad 'boris)
-('eugene put 'mom 'olga)
-('eugene put 'dad 'egor)
+(parents 'vasya)
+(brother 'petya 'vasya)
+(brother 'petya 'eugene)
+
+
+
+
+
+
