@@ -155,3 +155,6 @@ $RECYCLE.BIN/
 
 # Python
 *.pyc
+
+# Index
+/Stems/data/*
