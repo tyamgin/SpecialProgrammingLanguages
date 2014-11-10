@@ -75,6 +75,11 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                         </head>
                         <body>
                             <!-- time: """ + str(time.time() - timer) + """ -->
+                            <form action='http://""" + HOST_NAME + """:""" + str(PORT_NUMBER) + """'>
+			                    <input name="q" type="text" placeholder="your search request" value='""" + q + """'>
+			                    <input type="submit" value="Search">
+		                    </form>
+
                             """ + processSearchQuery(q) + """
                         </body>
                       </html>""")

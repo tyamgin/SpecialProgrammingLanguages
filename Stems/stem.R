@@ -12,7 +12,7 @@ rMatrixFile = paste0(dataPath, 'rMatrix.txt')
 svdUFile = paste0(dataPath, 'pySvdU.txt')
 svdVFile = paste0(dataPath, 'pySvdV.txt')
 
-source(paste0(projpath, "\\visual.R"))
+source(paste0(projectPath, "\\visual.R"))
 # http://www.coppelia.io/converting-an-r-hclust-object-into-a-d3-js-dendrogram/
 
 getDist = function(a, b) {
@@ -39,11 +39,53 @@ matrix = read.table(rMatrixFile)
 dims = 10
 s = svd(matrix, dims, dims)
 
-types = 15
+getWords = function(vec) {
+  res = c()
+  for(i in 1:4) {
+    res = append(res, which.max(vec))
+    vec[which.max(vec)] = 0;
+  }
+  paste(unique(names[res]), collapse=",")
+}
 
-c = c()
-for (i in 1:types)
-  c = append(c, matrix(i+1, dim(matrix)[2]/types)[,1])
+vmerge = function(a, b) {
+  res = 1:length(a)
+  for(i in 1:length(a))
+    res[i] = min(a[i], b[i])
+  res
+}
+
+HCtoJSON = function(hc) {
+  labels<-hc$labels
+  merge<-data.frame(hc$merge)
+  for (i in (1:nrow(merge))) {
+    s = paste0("list(name=getWords(vec", i, "), children=list")
+    if      (merge[i,1]<0 & merge[i,2]<0) {
+      node=paste0(s,"(list(name=labels[-merge[i,1]]),list(name=labels[-merge[i,2]])))")
+      vec=paste0("vmerge(matrix[,-merge[i,1]],matrix[,-merge[i,2]])")
+    }
+    else if (merge[i,1]>0 & merge[i,2]<0) {
+      node=paste0(s,"(node", merge[i,1], ", list(name=labels[-merge[i,2]])))")
+      vec=paste0("vmerge(vec", merge[i,1], ",", "matrix[,-merge[i,2]])")
+    }
+    else if (merge[i,1]<0 & merge[i,2]>0) {
+      node=paste0(s,"(list(name=labels[-merge[i,1]]), node", merge[i,2],"))")
+      vec=paste0("vmerge(matrix[,-merge[i,1]],vec", merge[i,2], ")")
+    }
+    else if (merge[i,1]>0 & merge[i,2]>0) {
+      node=paste0(s,"(node",merge[i,1] , ", node" , merge[i,2]," ))")
+      vec=paste0("vmerge(vec", merge[i,1], ",vec", merge[i,2], ")")
+    }
+    #print(paste0("vec", i, "<-", vec))
+    #print(paste0("node", i, "<-", node))
+    eval(parse(text=  paste0("vec", i, "<-", vec)  ))
+    eval(parse(text=  paste0("node", i, "<-", node)   ))
+    
+  }
+  eval(parse(text=paste0("JSON<-toJSON(node",nrow(merge)-1, ")")))
+  return(JSON)
+}
+
 
 docs = s$v
 
@@ -55,7 +97,7 @@ plot(x, y, col=c, pch=20)
 hc = hclust(dist(data.frame(docs)))
 hc$labels = docnames
 JSON = HCtoJSON(hc)
-height = 20 * dim(docs)[1]
+height = 22 * dim(docs)[1]
 D3Dendo(JSON, width=1500, height=height, file_out=paste0(outPath, "dendrogram.html"))
 
 # save svd

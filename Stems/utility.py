@@ -1,4 +1,4 @@
-import sys, math
+import sys, math, os
 
 def inc(dictionary, key, value=1):
     if key in dictionary:
@@ -52,3 +52,9 @@ def scalarMul(a, b):
 
 def getAngleBetween(a, b):
     return math.acos(scalarMul(a, b) / math.sqrt(scalarMul(a, a)) / math.sqrt(scalarMul(b, b)))
+
+
+def enumerateFiles(dir):
+    return [os.path.join(dir, f)
+            for f in os.listdir(dir)
+            if os.path.isfile(os.path.join(dir, f))]

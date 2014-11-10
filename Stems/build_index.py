@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from const import *
 from utility import *
 import shutil, os
@@ -11,6 +13,8 @@ stems = fileGet(pyStemsFile).split()
 if os.path.isdir(indexPath):
     shutil.rmtree(indexPath)
 os.mkdir(indexPath)
+
+docsCount = len(enumerateFiles(docsPath))
 
 for i in range(len(stems)):
     stem = stems[i]

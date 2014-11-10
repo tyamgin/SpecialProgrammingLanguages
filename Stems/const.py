@@ -17,8 +17,3 @@ svdVFile = dataPath + 'pySvdV.txt'
 wiki = 'https://ru.wikipedia.org'
 
 svdDims = 10
-
-idxes = [i for i in range(15)]
-docsTypes = len(idxes)
-docsPer = 60
-docsCount = docsTypes * docsPer

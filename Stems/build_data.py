@@ -93,10 +93,11 @@ class Document:
 
 print 'Documents parsing...'
 
-docs = [Document() for i in range(docsCount)]
-for i in range(docsTypes):
-    for j in range(docsPer):
-        docs[i * docsPer + j].read(docsPath + str(idxes[i]) + '_' + str(j) + '.txt')
+docFiles = enumerateFiles(docsPath)
+
+docs = [Document() for i in range(len(docFiles))]
+for i in range(len(docs)):
+    docs[i].read(docFiles[i])
 
 print 'Matrix building...'
 
