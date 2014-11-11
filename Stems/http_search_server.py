@@ -5,12 +5,10 @@ import time, BaseHTTPServer, os
 from porter import *
 from const import *
 from utility import *
-from subprocess import call
-
-import urlparse, traceback
+import urlparse, traceback, subprocess
 
 HOST_NAME = 'localhost'
-PORT_NUMBER = 80
+PORT_NUMBER = 7777
 
 
 def getChampList(stem):
@@ -28,8 +26,8 @@ def getTopPage(champDict, top=10):
     o = '<ol>'
     for i in range(top):
         idx = champList[i][0]
-        w = champList[i][1]
-        o += '<li><a href="%s">%s</a> <sup>%s</sup></li>' % (docNames[idx], docNames[idx], w)
+        w = 1 - champList[i][1] / math.pi
+        o += '<li><a href="%s">%s</a> <sup>%.2f%%</sup></li>' % (docNames[idx], docNames[idx], 100*w)
     o += '</ol>'
     return o
 
@@ -51,7 +49,7 @@ def processSearchQuery(q):
                     inc(w, item[0])
         for i in range(len(stems)):
             for item in cl[i]:
-                inc(champDict, item[0], item[1] / (1 + at(w, item[0])))
+                inc(champDict, item[0], item[1] / (1 + at(w, item[0])) * len(stems))
         return getTopPage(champDict)
     except Exception as e:
         traceback.print_exc()
@@ -96,7 +94,7 @@ if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
     print time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, PORT_NUMBER)
-    call('start http://%s:%d' % (HOST_NAME, PORT_NUMBER), shell=True)
+    subprocess.call('start http://%s:%d' % (HOST_NAME, PORT_NUMBER), shell=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
