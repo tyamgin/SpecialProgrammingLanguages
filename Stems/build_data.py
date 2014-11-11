@@ -61,6 +61,11 @@ class FrequencyMatrix:
         toRMatrix([[doc.link for doc in self.docs]], stream, lambda x: '"%s"' % x)
         closeOutput(stream)
 
+        stream = getOutput(pyMatrixFile)
+        for row in self.matrix:
+            stream.write(' '.join([str(i) for i in row]) + '\n')
+        closeOutput(stream)
+
         filePut(pyStemsFile, ' '.join([stem.encode('utf-8') for stem in self.stems]))
         filePut(pyDocsFile, ' '.join([doc.link for doc in self.docs]))
 

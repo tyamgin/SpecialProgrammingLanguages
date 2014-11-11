@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import time, BaseHTTPServer, os
 
 from porter import *
 from const import *
 from utility import *
+from subprocess import call
 
 import urlparse, traceback
 
@@ -39,11 +42,17 @@ def processSearchQuery(q):
         stems = [stem for stem in stems if os.path.isfile(indexPath + stem)]
         if len(stems) < 1:
             return 'bad request'
-        champDist = {}
-        for stem in stems:
-            for item in getChampList(stem):
-                inc(champDist, item[0], item[1])
-        return getTopPage(champDist)
+        champDict = {}
+        cl = [getChampList(stem) for stem in stems]
+        w = {}
+        for i in range(len(stems)):
+            for item in cl[i]:
+                if item[2]:
+                    inc(w, item[0])
+        for i in range(len(stems)):
+            for item in cl[i]:
+                inc(champDict, item[0], item[1] / (1 + at(w, item[0])))
+        return getTopPage(champDict)
     except Exception as e:
         traceback.print_exc()
         return 'bad request (crash)'
@@ -64,30 +73,30 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         o = urlparse.urlparse(s.path)
         get = urlparse.parse_qs(o.query)
-        if 'q' in get:
-            q = get['q'][0]
+        q = get['q'][0] if 'q' in get else ''
 
-            s.wfile.write("""
-                      <!DOCTYPE html>
-	                    <head>
-		                    <meta charset='utf-8'>
-                            <title>Search results</title>
-                        </head>
-                        <body>
-                            <!-- time: """ + str(time.time() - timer) + """ -->
-                            <form action='http://""" + HOST_NAME + """:""" + str(PORT_NUMBER) + """'>
-			                    <input name="q" type="text" placeholder="your search request" value='""" + q + """'>
-			                    <input type="submit" value="Search">
-		                    </form>
+        s.wfile.write("""
+                  <!DOCTYPE html>
+                    <head>
+                        <meta charset='utf-8'>
+                        <title>Search results</title>
+                    </head>
+                    <body>
+                        <!-- time: """ + str(time.time() - timer) + """ -->
+                        <form action='http://""" + HOST_NAME + """:""" + str(PORT_NUMBER) + """'>
+                            <input name="q" type="text" placeholder="your search request" value='""" + q + """'>
+                            <input type="submit" value="Search">
+                        </form>
 
-                            """ + processSearchQuery(q) + """
-                        </body>
-                      </html>""")
+                        """ + (processSearchQuery(q) if q else '') + """
+                    </body>
+                  </html>""")
 
 if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
     print time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, PORT_NUMBER)
+    call('start http://%s:%d' % (HOST_NAME, PORT_NUMBER), shell=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

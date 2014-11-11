@@ -12,6 +12,8 @@ rMatrixFile = paste0(dataPath, 'rMatrix.txt')
 svdUFile = paste0(dataPath, 'pySvdU.txt')
 svdVFile = paste0(dataPath, 'pySvdV.txt')
 
+ff = paste0(dataPath, 'documents-points.txt')
+
 source(paste0(projectPath, "\\visual.R"))
 # http://www.coppelia.io/converting-an-r-hclust-object-into-a-d3-js-dendrogram/
 
@@ -37,6 +39,7 @@ names = as.matrix(read.table(rStemsFile))
 docnames = as.matrix(read.table(rDocsFile))
 matrix = read.table(rMatrixFile)
 dims = 10
+print(dim(matrix))
 s = svd(matrix, dims, dims)
 
 getWords = function(vec) {
@@ -92,13 +95,13 @@ docs = s$v
 x = docs[,1]
 y = docs[,2]
 
-plot(x, y, col=c, pch=20)
+#plot(x, y, col=c, pch=20)
 
 hc = hclust(dist(data.frame(docs)))
 hc$labels = docnames
 JSON = HCtoJSON(hc)
 height = 22 * dim(docs)[1]
-D3Dendo(JSON, width=1500, height=height, file_out=paste0(outPath, "dendrogram.html"))
+D3Dendo(JSON, width=2500, height=height, file_out=paste0(outPath, "dendrogram.html"))
 
 # save svd
 write(paste(c(s$v)), file=svdVFile)

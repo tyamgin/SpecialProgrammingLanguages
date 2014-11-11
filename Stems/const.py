@@ -6,6 +6,7 @@ indexPath = dataPath + 'index\\'
 
 pyStemsFile = dataPath + 'pyStems.txt'
 pyDocsFile = dataPath + 'pyDocs.txt'
+pyMatrixFile = dataPath + 'pyMatrix.txt'
 rStemsFile = dataPath + 'rStems.txt'
 rDocsFile = dataPath + 'rDocs.txt'
 rMatrixFile = dataPath + 'rMatrix.txt'

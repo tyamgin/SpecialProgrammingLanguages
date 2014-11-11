@@ -1,5 +1,10 @@
 import sys, math, os
 
+
+def at(a, i):
+    return a[i] if i in a else 0
+
+
 def inc(dictionary, key, value=1):
     if key in dictionary:
         dictionary[key] += value
