@@ -40,7 +40,9 @@ docnames = as.matrix(read.table(rDocsFile))
 matrix = read.table(rMatrixFile)
 dims = 10
 print(dim(matrix))
+print('svd start')
 s = svd(matrix, dims, dims)
+print('svd end')
 
 getWords = function(vec) {
   res = c()
